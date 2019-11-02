@@ -3,8 +3,8 @@
 
 #include <SimpleGPIO.h>
 
-#include <functional>
 #include <chrono>
+#include <functional>
 
 class Encoder
 {
@@ -26,7 +26,9 @@ private:
    int lastScrollOfset_ = 0;
    std::function<void(int)> onScrollCallback_;
 
-   std::chrono::milliseconds encoderDebounceTime = std::chrono::milliseconds(100);
+   std::chrono::milliseconds debounceTime = std::chrono::milliseconds(5);
+   std::chrono::milliseconds directionDebounceTime =
+       std::chrono::milliseconds(100);
 };
 
 #endif

@@ -19,13 +19,18 @@ void Encoder::update()
    int currentScrollOffset = 0;
    encoderAPin_.poll(
        [&currentScrollOffset, this](PinEvent event, DigitalPinState state) {
-          if (state == encoderBPin_.state())
+          auto bState = encoderBPin_.state();
+
+          if (event == PinEvent::Rise)
           {
-             currentScrollOffset = -1;
-          }
-          else
-          {
-             currentScrollOffset = 1;
+             if (bState == DigitalPinState::High)
+             {
+                currentScrollOffset = -1;
+             }
+             else
+             {
+                currentScrollOffset = 1;
+             }
           }
        });
 
@@ -33,10 +38,16 @@ void Encoder::update()
    {
       steady_clock::time_point currentEncoderPulse = steady_clock::now();
 
+      if ((currentEncoderPulse - lastEncoderPulse_) < debounceTime)
+      {
+         return;
+      }
+
+      // check if direction changed
       if ((currentScrollOffset < 0 && lastScrollOfset_ > 0) ||
           (currentScrollOffset > 0 && lastScrollOfset_ < 0))
       {
-         if ((currentEncoderPulse - lastEncoderPulse_) < encoderDebounceTime)
+         if ((currentEncoderPulse - lastEncoderPulse_) < directionDebounceTime)
          {
             return;
          }
