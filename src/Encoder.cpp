@@ -1,7 +1,10 @@
-#include "Encoder.h"
+#include <InputDevices/Encoder.h>
 
 using namespace std::chrono;
+using namespace SimpleGPIO;
 
+namespace InputDevices
+{
 Encoder::Encoder(DigitalInputPin encoderAPin, DigitalInputPin encoderBPin)
     : encoderAPin_(std::move(encoderAPin))
     , encoderBPin_(std::move(encoderBPin))
@@ -63,3 +66,5 @@ void Encoder::onScroll(int distance)
 {
    if (onScrollCallback_) onScrollCallback_(distance);
 }
+
+}  // namespace InputDevices

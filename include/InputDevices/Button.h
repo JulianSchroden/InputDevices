@@ -1,16 +1,18 @@
 #ifndef _INPUT_DEVICES_BUTTON_h
 #define _INPUT_DEVICES_BUTTON_h
 
-#include <SimpleGPIO.h>
+#include <SimpleGPIO/GPIO.h>
 
 #include <chrono>
 #include <functional>
 
 
+namespace InputDevices
+{
 class Button
 {
 public:
-   Button(DigitalInputPin buttonPin);
+   Button(SimpleGPIO::DigitalInputPin buttonPin);
 
    void onClick(std::function<void()> callback);
    void onLongClick(std::function<void()> callback);
@@ -22,7 +24,7 @@ private:
    void onLongClick();
 
 private:
-   DigitalInputPin buttonPin_;
+   SimpleGPIO::DigitalInputPin buttonPin_;
    std::function<void()> onClickCallback_;
    std::function<void()> onLongClickCallback_;
 
@@ -34,5 +36,7 @@ private:
    std::chrono::seconds longPressTime = std::chrono::seconds(1);
    std::chrono::milliseconds debounceTime = std::chrono::milliseconds(50);
 };
+
+}  // namespace InputDevices
 
 #endif

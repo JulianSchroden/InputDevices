@@ -1,7 +1,10 @@
-#include "Button.h"
+#include <InputDevices/Button.h>
 
 using namespace std::chrono;
+using namespace SimpleGPIO;
 
+namespace InputDevices
+{
 Button::Button(DigitalInputPin buttonPin)
     : buttonPin_(std::move(buttonPin))
     , currentButtonPressTime_(steady_clock::now())
@@ -65,3 +68,5 @@ void Button::onLongClick()
 {
    if (onLongClickCallback_) onLongClickCallback_();
 }
+
+}  // namespace InputDevices
